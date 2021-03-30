@@ -1,0 +1,556 @@
+<style type="text/css">
+  body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1100px;
+  }
+
+  h1 {
+    font-weight: 300;
+  }
+
+  .disclaimerbox {
+    background-color: #eee;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding: 20px;
+  }
+
+  video.header-vid {
+    height: 140px;
+    border: 1px solid black;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+  }
+
+  img.header-img {
+    height: 140px;
+    border: 1px solid black;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+  }
+
+  img.rounded {
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+  }
+
+  a:link,
+  a:visited {
+    color: #1367a7;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #208799;
+  }
+
+  td.dl-link {
+    height: 160px;
+    text-align: center;
+    font-size: 22px;
+  }
+
+  .layered-paper-big {
+    /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+    box-shadow:
+      0px 0px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The top layer shadow */
+      5px 5px 0 0px #fff,
+      /* The second layer */
+      5px 5px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The second layer shadow */
+      10px 10px 0 0px #fff,
+      /* The third layer */
+      10px 10px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The third layer shadow */
+      15px 15px 0 0px #fff,
+      /* The fourth layer */
+      15px 15px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The fourth layer shadow */
+      20px 20px 0 0px #fff,
+      /* The fifth layer */
+      20px 20px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The fifth layer shadow */
+      25px 25px 0 0px #fff,
+      /* The fifth layer */
+      25px 25px 1px 1px rgba(0, 0, 0, 0.35);
+    /* The fifth layer shadow */
+    margin-left: 10px;
+    margin-right: 45px;
+  }
+
+
+  .layered-paper {
+    /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+    box-shadow:
+      0px 0px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The top layer shadow */
+      5px 5px 0 0px #fff,
+      /* The second layer */
+      5px 5px 1px 1px rgba(0, 0, 0, 0.35),
+      /* The second layer shadow */
+      10px 10px 0 0px #fff,
+      /* The third layer */
+      10px 10px 1px 1px rgba(0, 0, 0, 0.35);
+    /* The third layer shadow */
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 30px;
+    margin-bottom: 5px;
+  }
+
+  .vert-cent {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  hr {
+    border: 0;
+    height: 1.5px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  }
+
+  div {
+    width: 250px;
+    word-wrap: break-word;
+  }
+</style>
+
+<html>
+
+<head>
+  <title>VFS</title>
+  <meta property="og:title"
+    content="Rethinking Self-Supervised Correspondence Learning: A Video Frame-level Similarity Perspective" />
+</head>
+
+<body>
+  <br>
+  <center>
+    <span style="font-size:42px">
+      Rethinking Self-Supervised Correspondence Learning: <br> A Video Frame-level Similarity Perspective</span>
+  </center>
+
+  <br><br>
+  <table align=center width=600px>
+    <tr>
+      <td align=center width=100px>
+        <center>
+          <span style="font-size:26px"><a href="http://jerryxu.net">Jiarui Xu</a></span>
+        </center>
+      </td>
+      <td align=center width=100px>
+        <center>
+          <span style="font-size:26px"><a href="https://xiaolonw.github.io/">Xiaolong Wang</a></span>
+        </center>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+  <table align=center width=600px>
+    <tr>
+      <td align=center width=300px>
+        <center>
+          <span style="font-size:24px">University of California San Diego</span>
+        </center>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+  <br>
+  <br>
+  <table align=center width=1000px>
+    <tr>
+      <td width=1000px>
+        <center>
+          <a href="./fig/teaser.png"><img src="./fig/teaser.png" width="600px"></img></href></a><br>
+        </center>
+      </td>
+    </tr>
+  </table>
+  <table align=center width=900px></table>
+  <tr>
+    <td width=600px>
+      <br>
+      <p align="justify" style="font-size: 18px">
+        Learning a good representation for space-time correspondence is the key for various computer vision tasks,
+        including
+        tracking object bounding boxes and performing video object pixel segmentation. To learn generalizable
+        representation for
+        correspondence in large-scale, a variety of self-supervised pretext tasks are proposed to explicitly perform
+        object-level or patch-level similarity learning. Instead of following the previous literature, we propose to
+        learn
+        correspondence using Video Frame-level Similarity (VFS) learning, i.e, simply learning from comparing video
+        frames. Our
+        work is inspired by the recent success in image-level contrastive learning and similarity learning for visual
+        recognition. Our hypothesis is that if the representation is good for recognition, it requires the convolutional
+        features to find correspondence between similar objects or parts. Our experiments show surprising results that
+        VFS
+        surpasses state-of-the-art self-supervised approaches for both OTB visual object tracking and DAVIS video object
+        segmentation. We perform detailed analysis on what matters in VFS and reveals new properties on image and frame
+        level
+        similarity learning.
+      </p>
+    </td>
+  </tr>
+  </table>
+
+  <br>
+  <hr>
+  <table align=center width=700>
+    <center>
+      <h1>Paper</h1>
+    </center>
+    <tr>
+      <td><a href=""><img class="layered-paper-big" style="height:180px;" src="./fig/page_teaser.png" /></a></td>
+      <td><span style="font-size:18px"> Jiarui Xu, Xiaolong Wang<br><br>
+          <a href="">
+            Rethinking Self-Supervised Correspondence Learning: <br> A Video Frame-level Similarity Perspective<br>
+          </a>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <td><span style="font-size:18px">
+          <center>
+            <a href="./bib.html">[Bibtex]</a>
+          </center>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <br>
+  <hr>
+
+  <center>
+    <h1>Video</h1>
+    <table border="0" align="center" cellspacing="0" cellpadding="20">
+      <td align="center" valign="middle">
+        <iframe width="800" height="450" src="https://www.youtube.com/embed/wTnxGewCcSo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </td>
+    </table>
+  </center>
+  <br>
+  <hr>
+
+  <center>
+    <h1>Qualitative Results</h1>
+  </center>
+
+  <br>
+
+  <table align=center width=900px>
+
+    <tr>
+
+      <td>
+        <p align="justify">
+
+          <span style="font-size:25px">
+            <b>Fine-grained Correspondence</b>
+          </span>
+
+          <br>
+        </p>
+      </td>
+
+    </tr>
+
+  </table>
+  <br>
+
+
+  <table align=center width=900px>
+    <tr>
+      <td>
+        <p align="justify">
+          <span style="font-size:18px">
+            <b>DAVIS-2017 Video Object Segmentation</b>
+          </span>
+          <br>
+        </p>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="fig/dog.gif"><img src="fig/dog.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="fig/paragliding.gif"><img src="fig/paragliding.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+      </center>
+    </tr>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="fig/soapbox.gif"><img src="fig/soapbox.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="fig/kite-surf.gif"><img src="fig/kite-surf.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+      </center>
+    </tr>
+  </table>
+
+  <br>
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <td>
+        <p align="justify">
+          <span style="font-size:18px">
+            <b>VIP Human Part Segmentation</b>
+          </span>
+          <br>
+        </p>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="fig/video37.gif"><img src="fig/video37.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="fig/video154.gif"><img src="fig/video154.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+      </center>
+    </tr>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="fig/video208.gif"><img src="fig/video208.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="fig/video297.gif"><img src="fig/video297.gif"
+                width="450"></img></a><br>
+          </center>
+        </td>
+      </center>
+    </tr>
+  </table>
+
+
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <td>
+        <p align="justify">
+          <span style="font-size:18px">
+            <b>JHMDB Human Pose Tracking</b>
+          </span>
+          <br>
+        </p>
+      </td>
+    </tr>
+  </table>
+  <table align=center width=900px>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/pullup.gif"><img src="./fig/pullup.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/throw.gif"><img src="./fig/throw.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/sit.gif"><img src="./fig/sit.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+
+      </center>
+    </tr>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/kick.gif"><img src="./fig/kick.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/brush-hair.gif"><img src="./fig/brush-hair.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/push.gif"><img src="./fig/push.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+
+      </center>
+    </tr>
+  </table>
+
+
+  <br>
+  <br>
+
+  <table align=center width=900px>
+
+    <tr>
+
+      <td>
+        <p align="justify">
+
+          <span style="font-size:25px">
+            <b>Object-level Correspondence</b>
+          </span>
+
+          <br>
+        </p>
+      </td>
+
+    </tr>
+
+  </table>
+  <br>
+
+  <table align=center width=900px>
+    <tr>
+      <td>
+        <p align="justify">
+          <span style="font-size:18px">
+            <b>OTB-100 Visual Object Tracking</b>
+          </span>
+          <br>
+        </p>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+
+
+  <table align=center width=900px>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/couple.gif"><img src="./fig/couple.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/mountainbike.gif"><img src="./fig/mountainbike.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/davis3.gif"><img src="./fig/davis3.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+
+      </center>
+    </tr>
+    <tr>
+      <center>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/crossing.gif"><img src="./fig/crossing.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/deer.gif"><img src="./fig/deer.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+        <td colspan='2'>
+          <center>
+            <a href="./fig/jogging.gif"><img src="./fig/jogging.gif"
+                width="300px"></img></a><br>
+          </center>
+        </td>
+
+      </center>
+    </tr>
+  </table>
+
+
+  <br>
+  <br>
+
+
+  <hr>
+  <table align=center width=900px>
+    <tr>
+      <td colspan="5" style="font-size: 14px">
+        <center>
+          The website template is adapted from <a href="https://nv-tlabs.github.io/DefTet/">NVIDIA's DefTet project
+            page</a>, and we thank <a href="http://www.cs.toronto.edu/~davidj/">David Acuna</a> for this website
+          template.
+        </center>
+      </td>
+    </tr>
+  </table>
+
+</body>
+
+</html>
