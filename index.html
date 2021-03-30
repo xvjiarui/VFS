@@ -26,29 +26,68 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container"></div>
         <h2>Rethinking Self-Supervised Correspondence Learning:<br>A Video Frame-level Similarity Perspective</h2>
-        <!-- <h3>CVPR 2021 (Oral)</h3> -->
         <hr>
         <p class="authors">
             <a href="https://jerryxu.net/">Jiarui Xu</a>,&emsp;
             <a href="https://xiaolonw.github.io/">Xiaolong Wang</a>
         </p>
         <div class="btn-group" role="group" aria-label="Top menu">
-            <a class="btn btn-primary" href="">Paper</a>
+            <a class="btn btn-primary" href="./vfs.pdf">Paper</a>
         </div>
     </div>
 
     <div class="container">
         <div class="section">
 
-            <div class="row align-items-center">
-                <div class="col-sm-8 center">
-                    <img src="./fig/teaser.png" style="width:100%"></img>
+            <div class="row align-items-center" onmouseout="vfs_stop()" onmouseover="vfs_start()">
+            <!-- <div class="row align-items-center" onmouseout="vfs_play()" onmouseover="vfs_pause()"> -->
+                <!-- <div class="row align-items-center"> -->
+                <div class="col-sm-12 center">
+                    <!-- <img src="./fig/teaser.png" style="width:100%"></img> -->
+                    <div class="one col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="two col-sm-12" style="padding-left: 0px; padding-right: 0px;" id='vfs_image'">
+                            <video id="teaser_video" width=100% height=100% muted autoplay loop>
+                            <source src=" fig/vfs_gif.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                            </video></div>
+                        <img src='fig/vfs_gif.png' width="100%">
+                    </div>
+                    <script type="text/javascript">
+                        function vfs_start() {
+                            document.getElementById('vfs_image').style.opacity = "1";
+                        }
+
+                        function vfs_stop() {
+                            document.getElementById('vfs_image').style.opacity = "0";
+                        }
+                        vfs_start()
+
+                        function vfs_pause() {
+                            document.getElementById('teaser_video').pause();
+                        }
+
+                        function vfs_play() {
+                            document.getElementById('teaser_video').play();
+                        }
+                    </script>
                 </div>
             </div>
             <hr>
             <p>
-                Learning a good representation for space-time correspondence is the key for various computer vision tasks, including tracking object bounding boxes and performing video object pixel segmentation. To learn generalizable representation for correspondence in large-scale, a variety of self-supervised pretext tasks are proposed to explicitly perform object-level or patch-level similarity learning. Instead of following the previous literature, we propose to learn correspondence using Video Frame-level Similarity (VFS) learning, i.e, simply learning from comparing video frames. Our work is inspired by the recent success in image-level contrastive learning and similarity learning for visual recognition. Our hypothesis is that if the representation is good for recognition, it requires the convolutional features to find correspondence between similar objects or parts. Our experiments show surprising results that VFS surpasses state-of-the-art self-supervised approaches for both OTB visual object tracking and DAVIS video object segmentation. We perform detailed analysis on what matters in VFS and reveals new properties on image and frame level similarity learning. 
-            </p> </div>
+                Learning a good representation for space-time correspondence is the key for various computer vision
+                tasks, including tracking object bounding boxes and performing video object pixel segmentation. To learn
+                generalizable representation for correspondence in large-scale, a variety of self-supervised pretext
+                tasks are proposed to explicitly perform object-level or patch-level similarity learning. Instead of
+                following the previous literature, we propose to learn correspondence using Video Frame-level Similarity
+                (VFS) learning, i.e, simply learning from comparing video frames. Our work is inspired by the recent
+                success in image-level contrastive learning and similarity learning for visual recognition. Our
+                hypothesis is that if the representation is good for recognition, it requires the convolutional features
+                to find correspondence between similar objects or parts. Our experiments show surprising results that
+                VFS surpasses state-of-the-art self-supervised approaches for both OTB visual object tracking and DAVIS
+                video object segmentation. We perform detailed analysis on what matters in VFS and reveals new
+                properties on image and frame level similarity learning.
+            </p>
+        </div>
 
         <div class="section">
             <h2>Fine-grained Correspondence</h2>
@@ -107,58 +146,58 @@
                 </div>
             </div>
 
-        <div class="section">
-            <h2>More Fine-grained Correspondence</h2>
-            <p style="text-align: center;">
-                Fine-grained correspondence is evaluated on res<sub>4</sub> feature map without fine-tuning.
-            </p>
-            <hr>
-            <h4>VIP Human Part Segmentation</h4>
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <img src="fig/video37.gif" style="width:100%">
+            <div class="section">
+                <h2>More Fine-grained Correspondence</h2>
+                <p style="text-align: center;">
+                    Fine-grained correspondence is evaluated on res<sub>4</sub> feature map without fine-tuning.
+                </p>
+                <hr>
+                <h4>VIP Human Part Segmentation</h4>
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <img src="fig/video37.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="fig/video154.gif" style="width:100%">
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <img src="fig/video154.gif" style="width:100%">
+                <br>
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <img src="fig/video208.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="fig/video297.gif" style="width:100%">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <img src="fig/video208.gif" style="width:100%">
-                </div>
-                <div class="col-sm-6">
-                    <img src="fig/video297.gif" style="width:100%">
-                </div>
-            </div>
 
-            <br>
-            <h4>JHMDB Human Pose Tracking</h4>
-            <div class="row align-items-center">
-                <div class="col-sm-4">
-                    <img src="fig/pullup.gif" style="width:100%">
+                <br>
+                <h4>JHMDB Human Pose Tracking</h4>
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <img src="fig/pullup.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="fig/throw.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="fig/sit.gif" style="width:100%">
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <img src="fig/throw.gif" style="width:100%">
+                <br>
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <img src="fig/kick.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="fig/brush-hair.gif" style="width:100%">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="fig/push.gif" style="width:100%">
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <img src="fig/sit.gif" style="width:100%">
-                </div>
+                <br>
             </div>
-            <br>
-            <div class="row align-items-center">
-                <div class="col-sm-4">
-                    <img src="fig/kick.gif" style="width:100%">
-                </div>
-                <div class="col-sm-4">
-                    <img src="fig/brush-hair.gif" style="width:100%">
-                </div>
-                <div class="col-sm-4">
-                    <img src="fig/push.gif" style="width:100%">
-                </div>
-            </div>
-            <br>
-        </div>
 
             <div class="section">
                 <h2>More results</h2>
@@ -186,11 +225,11 @@
                 <hr>
                 <div class="bibtexsection">
                     @article{xu2021rethinking,
-                      title={Rethinking Self-Supervised Correspondence Learning:
-                             A Video Frame-level Similarity Perspective},
-                      author={Xu, Jiarui and Wang, Xiaolong},
-                      journal={arXiv preprint arXiv:},
-                      year={2021}
+                    title={Rethinking Self-Supervised Correspondence Learning:
+                    A Video Frame-level Similarity Perspective},
+                    author={Xu, Jiarui and Wang, Xiaolong},
+                    journal={arXiv preprint arXiv:},
+                    year={2021}
                     }
                 </div>
             </div>

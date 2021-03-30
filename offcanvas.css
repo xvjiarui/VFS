@@ -113,3 +113,18 @@ h4 {
 .vspace-top {
     margin-top: 30px;
 }
+
+.one {
+    /* width: 160px; */
+    /* height: 160px; */
+    /* position: relative; */
+}
+
+.two {
+    /* width: 160px; */
+    /* height: 160px; */
+    position: absolute;
+    transition: opacity .2s ease-in-out;
+    -moz-transition: opacity .2s ease-in-out;
+    -webkit-transition: opacity .2s ease-in-out;
+}
