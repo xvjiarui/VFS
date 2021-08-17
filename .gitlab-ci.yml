@@ -1,0 +1,15 @@
+image: gcr.io/kaniko-project/executor:debug
+   
+stages:
+  - build-and-push
+   
+build-and-push-docker:
+  rules:
+    - changes:
+        - docker/Dockerfile
+      when: always
+      allow_failure: true
+  stage: build-and-push
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --cache=true --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/Dockerfile --destination $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA:0:8} --destination $CI_REGISTRY_IMAGE:latest
