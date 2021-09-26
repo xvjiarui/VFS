@@ -1,0 +1,8 @@
+decord>=0.4.2
+matplotlib
+mmcv-full>=1.2.1
+numpy
+opencv-contrib-python
+Pillow
+scikit-image
+terminaltables
