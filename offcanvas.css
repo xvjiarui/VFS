@@ -96,9 +96,10 @@ h4 {
 .bibtexsection {
     font-family: "Courier", monospace;
     font-size: 16px;
-    white-space: pre;
+    /* white-space: pre; */
     background-color: #f4f4f4;
     text-align: left;
+    padding-left: 10px;
 }
 
 .canvas-row canvas {
